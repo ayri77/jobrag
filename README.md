@@ -74,13 +74,29 @@ RAG principle used here:
 
 ## Project Structure
 
-jobrag/ ├─ data/ │ ├─ raw/ \# input PDF files │ └─ index/ \# generated
-FAISS index + metadata ├─ src/ │ ├─ jobrag/ │ │ ├─ chunk.py │ │ ├─
-cli.py │ │ ├─ embed.py │ │ ├─ index.py │ │ ├─ ingest.py │ │ ├─ llm.py │
-│ ├─ rag.py │ │ ├─ search.py │ │ ├─ settings.py │ │ └─ ... │ └─ tests/ │
-├─ chunk_test.py │ ├─ embed_test.py │ ├─ ingest_test.py │ ├─ jd_test.py
-│ ├─ llm_test.py │ ├─ rag_test.py │ └─ retrieval_test.py ├─
-pyproject.toml └─ README.md
+jobrag/
+├─ data/
+│  ├─ raw/                 # input documents (PDF CVs, profiles, etc.)
+│  └─ index/               # generated FAISS index + chunk metadata
+│
+├─ src/
+│  └─ jobrag/
+│     ├─ ingest.py        # document loading and page extraction
+│     ├─ chunk.py         # text chunking logic
+│     ├─ embed.py         # embedding model wrapper
+│     ├─ index.py         # FAISS index construction
+│     ├─ search.py        # vector retrieval from index
+│     ├─ rag.py           # RAG pipeline (retrieve → prompt → generate)
+│     ├─ llm.py           # Ollama LLM client
+│     ├─ cli.py           # command line interface
+│     ├─ settings.py      # central configuration
+│     └─ store.py         # metadata storage helpers
+│
+├─ src/tests/             # simple smoke tests for pipeline components
+│
+├─ pyproject.toml         # project dependencies and packaging
+├─ uv.lock                # locked dependency versions
+└─ README.md
 
 ------------------------------------------------------------------------
 
@@ -117,24 +133,34 @@ during testing.
 
 ### Clone the repository
 
+```
 git clone `<your-repo-url>`{=html}\
 cd jobrag
+```
 
 ### Install dependencies
 
+```
 uv sync
+```
 
 If needed:
 
+```
 uv pip install typer rich
+```
 
 ### Install Ollama model
 
+```
 ollama pull qwen3.5:4b
+```
 
 ### Create .env
 
+```
 HF_TOKEN=your_huggingface_read_token
+```
 
 The Hugging Face token is optional but prevents anonymous hub warnings.
 
@@ -168,7 +194,9 @@ data/raw/
 
 ### Build index
 
+```
 uv run jobrag index
+```
 
 Output:
 
@@ -177,20 +205,25 @@ data/index/chunks_meta.jsonl
 
 ### Ask a question
 
+```
 uv run jobrag ask -q "FastAPI, Docker, deploying ML services"
+```
 
 ### Ask with debug
 
+```
 uv run jobrag ask -q "FastAPI, Docker, deploying ML services" --debug
+```
 
 ### Generate summary for a job description
-
+```
 uv run jobrag jd --jd "We are looking for a Python/AI Engineer with
 FastAPI, RAG, Docker, and LLM experience."
-
+```
 or
-
+```
 uv run jobrag jd --jd-file data/jd_sample.txt
+```
 
 ------------------------------------------------------------------------
 
@@ -271,4 +304,4 @@ The architecture is modular:
 
 ## License
 
-Add a license if publishing publicly.
+MIT License
