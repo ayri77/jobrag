@@ -47,21 +47,23 @@ Supported workflow:
 
 Pipeline:
 
-PDF files\
-↓\
-Text extraction\
-↓\
-Chunking\
-↓\
-Embeddings (bge-m3)\
-↓\
-FAISS index\
-↓\
-Retrieval\
-↓\
-Prompt assembly with sources\
-↓\
+```text
+PDF files
+   ↓
+Text extraction
+   ↓
+Chunking
+   ↓
+Embeddings (bge-m3)
+   ↓
+FAISS index
+   ↓
+Retrieval
+   ↓
+Prompt assembly with sources
+   ↓
 Local LLM via Ollama
+```
 
 RAG principle used here:
 
@@ -74,6 +76,9 @@ RAG principle used here:
 
 ## Project Structure
 
+The project is organized around the main RAG pipeline components.
+
+```text
 jobrag/
 ├─ data/
 │  ├─ raw/                 # input documents (PDF CVs, profiles, etc.)
@@ -97,6 +102,7 @@ jobrag/
 ├─ pyproject.toml         # project dependencies and packaging
 ├─ uv.lock                # locked dependency versions
 └─ README.md
+```
 
 ------------------------------------------------------------------------
 
@@ -133,26 +139,26 @@ during testing.
 
 ### Clone the repository
 
-```
+```bash
 git clone `<your-repo-url>`{=html}\
 cd jobrag
 ```
 
 ### Install dependencies
 
-```
+```bash
 uv sync
 ```
 
 If needed:
 
-```
+```bash
 uv pip install typer rich
 ```
 
 ### Install Ollama model
 
-```
+```bash
 ollama pull qwen3.5:4b
 ```
 
